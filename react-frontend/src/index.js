@@ -7,7 +7,7 @@ const rootElement = document.getElementById("root");
 
 function App() {
     return (
-        <p>It works!</p>
+        <p>React.js is working</p>
     );
 }
 
