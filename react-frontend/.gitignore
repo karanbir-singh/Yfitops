@@ -3,7 +3,7 @@ package-lock.json
 .cache
 .firebase
 .firebaserc
-.firebase.json
+firebase.json
 dist
 *.log
 *.gz
