@@ -8,9 +8,32 @@
 
     <link rel="icon" href="icon.svg" />
     <title>Yfitops</title>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyDeNXyzDwWW-o5FqsXQ5smJiVJ4RoHkPhQ",
+            authDomain: "yfitops-cabf7.firebaseapp.com",
+            projectId: "yfitops-cabf7",
+            storageBucket: "yfitops-cabf7.appspot.com",
+            messagingSenderId: "302161172813",
+            appId: "1:302161172813:web:949668a7cc758472f7bf04"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
+
+    <script src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
 </head>
 
-<body>
+<body style="background-color: #343a40;">
     <div id="root"></div>
     <script src="../src/index.js"></script>
 </body>
