@@ -5,6 +5,7 @@ import "./styles.css";
 import { BsNavbar } from "./components/BsNavbar";
 import { Track } from "./components/Track";
 import { Row } from "react-bootstrap";
+import { Player } from "./components/Player";
 
 // App's root element
 const rootElement = document.getElementById("root");
@@ -27,7 +28,29 @@ function App() {
                 <Track />
                 <Track />
                 <Track />
+
+                <Track />
+                <Track />
+                <Track />
+                <Track />
+                <Track />
+                <Track />
+
+                <Track />
+                <Track />
+                <Track />
+                <Track />
+                <Track />
+                <Track />
+                
+                <Track />
+                <Track />
+                <Track />
+                <Track />
+                <Track />
+                <Track />
             </Row>
+            <Player />
         </>
     );
 }

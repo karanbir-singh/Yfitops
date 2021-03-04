@@ -15,3 +15,9 @@ html, body {
 #skip-next :hover {
   color: #2ee66b;
 }
+
+.footer-player{
+  position: fixed;
+  left: 0;
+  bottom: 0;
+}
