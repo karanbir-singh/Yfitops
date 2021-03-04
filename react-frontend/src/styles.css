@@ -1,12 +1,17 @@
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 .material-icons {
   vertical-align: middle;
   margin-bottom: 1px;
 }
 
-#skip-previous :hover{
+#skip-previous :hover {
   color: #2ee66b;
 }
 
-#skip-next :hover{
+#skip-next :hover {
   color: #2ee66b;
 }
