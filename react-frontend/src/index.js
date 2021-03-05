@@ -6,6 +6,7 @@ import { BsNavbar } from "./components/BsNavbar";
 import { Track } from "./components/Track";
 import { Row } from "react-bootstrap";
 import { Player } from "./components/Player";
+import 'regenerator-runtime/runtime';
 
 // App's root element
 const rootElement = document.getElementById("root");
@@ -15,34 +16,6 @@ function App() {
         <>
             <BsNavbar />
             <Row xs={1} sm={2} md={3} lg={3} xl={6} >
-                <Track />
-                <Track />
-                <Track />
-                <Track />
-                <Track />
-                <Track />
-
-                <Track />
-                <Track />
-                <Track />
-                <Track />
-                <Track />
-                <Track />
-
-                <Track />
-                <Track />
-                <Track />
-                <Track />
-                <Track />
-                <Track />
-
-                <Track />
-                <Track />
-                <Track />
-                <Track />
-                <Track />
-                <Track />
-                
                 <Track />
                 <Track />
                 <Track />

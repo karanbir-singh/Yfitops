@@ -13,7 +13,7 @@ export function Track(props) {
 
     return (
         <Col>
-            <Card style={{ maxWidth: '15rem', marginTop: '10px', marginLeft: '5px' }}>
+            <Card style={{ maxWidth: '22.8rem', marginTop: '10px', marginLeft: '5px' }}>
                 <Card.Img variant="top" src={state.img} />
                 <Card.Body>
                     <Card.Title>Card Title</Card.Title>
