@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../styles.css";
@@ -7,54 +7,63 @@ import { Button } from "react-bootstrap";
 import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
 
-// Get a reference to the storage service, which is used to create references in your storage bucket
+//> Get a reference to the storage service, which is used to create references in your storage bucket
 var storage = firebase.storage();
 
-// Create a storage reference from our storage service
+//> Create a storage reference from our storage service
 const storageRef = storage.ref();
 
-async function getAudios(user) {
-    // let data = await storageRef.child(user).getDownloadUrl();
-    storageRef.child(user + "/02. White America - (www.SongsLover.com).mp3").getDownloadURL()
-        .then((url) => {
-            // `url` is the download URL for 'images/stars.jpg'
-
-            // This can be downloaded directly:
-            // var xhr = new XMLHttpRequest();
-            // xhr.responseType = 'blob';
-            // xhr.onload = (event) => {
-            //     var blob = xhr.response;
-            // };
-            // xhr.open('GET', url);
-            // xhr.send();
-            console.log(url);
-        })
-        .catch((error) => {
-            // Handle any errors
-        });
-    // await console.log(data);
-    // return await data;
-}
-
-const playlist = [
-    {},
-    {}
-]
-
+//> Render audio player
 export function Player() {
-    const [state, setState] = useState({
-        currentMusicIndex: 0,
-        currentMusicTitle: "Now playing: Let it go!"
+
+    //Current
+    const [currMusic, setCurrMusic] = useState({
+        index: -1
     })
 
+    const [playlist, setPlaylist] = useState([])
+
+    //* Get single online file download/play URL
+    async function getFileURL(user, fileName) {
+        return await storageRef.child(user + "/" + fileName).getDownloadURL();
+    }
+
+    //* Get user uploaded file names
+    async function getUserFileNames(user) {
+        return (await storageRef.child(user).listAll())._delegate.items.map(item => { return item._location.path_.split('/')[1] });
+    }
+
+    //* Get User playlist
+    async function getUserPlaylist(user) {
+        let titles = await getUserFileNames(user);
+
+        let list = [];
+        for (const title of titles) {
+            list.push({ title: title, src: await getFileURL(user, title) });
+        }
+        setPlaylist(list);
+    }
+
+    //* Similar to componentDidMount
+    useEffect(() => {
+        getUserPlaylist('user1');
+    }, [])
+
     return (
-        <AudioPlayer
-            src="https://firebasestorage.googleapis.com/v0/b/yfitops-cabf7.appspot.com/o/user1%2F02.%20White%20America%20-%20(www.SongsLover.com).mp3?alt=media&token=89613d5d-3186-4f8f-bb9a-048d73d944ce"
-            className="footer-player"
-            showSkipControls={true}
-            header={state.currentMusicTitle}
-            layout="stacked"
-            onPlay={() => console.log(getAudios('user1'))}
-        />
+        <>
+            <AudioPlayer
+                src={playlist[currMusic.index]?.src}
+                className="footer-player"
+                showSkipControls={true}
+                autoPlayAfterSrcChange={true}
+                header={playlist[currMusic.index]?.title}
+                layout="stacked"
+
+                onEnded={() => setCurrMusic({ index: currMusic.index + 1 })}
+                onClickPrevious={() => setCurrMusic({ index: currMusic.index - 1 })}
+                onClickNext={() => setCurrMusic({ index: currMusic.index + 1 })}
+            />
+
+        </>
     );
 };
