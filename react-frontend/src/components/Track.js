@@ -2,14 +2,12 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../styles.css";
-import assets from "../assets/*.png";
+import cards from "../assets/cards/*.png";
 import { Button, Card, Col, Row } from "react-bootstrap";
-import AudioPlayer from 'react-h5-audio-player';
-
 
 export function Track(props) {
     const [state, setState] = useState({
-        img: assets.track_red
+        img: cards.track_green
     });
 
     return (

@@ -4,6 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "../styles.css";
 import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
+import { VinylRecord } from "./VinylRecord";
+import { Col, Row } from "react-bootstrap";
 const user = require('../user.js');
 
 //> Render audio player
@@ -28,20 +30,23 @@ export function Player() {
 
     return (
         <>
+
             <AudioPlayer
                 src={playlist[currMusic.index]?.src}
                 className="footer-player"
                 showSkipControls={true}
                 autoPlayAfterSrcChange={true}
-                header={playlist[currMusic.index]?.title}
+                header={playlist[currMusic.index]?.title.split('.mp3')[0]}
                 layout="stacked"
 
-                onEnded={() => setCurrMusic({ index: currMusic.index + 1 })}
+                onPlay={() => console.log("PLAY")}
+                onPause={() => console.log("PAUSE")}
 
                 onClickPrevious={() => { setCurrMusic({ index: currMusic.index - 1 }) }}
                 onClickNext={() => { setCurrMusic({ index: currMusic.index + 1 }) }}
-            />
 
+                onEnded={() => setCurrMusic({ index: currMusic.index + 1 })}
+            />
         </>
     );
 };
