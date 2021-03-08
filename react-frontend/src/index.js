@@ -1,49 +1,41 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useReducer } from "react";
 import ReactDOM from "react-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./styles.css";
-import { Navbs } from "./components/Navbs";
-import { Track } from "./components/Track";
-import { Col, Row, Spinner } from "react-bootstrap";
-import { Player } from "./components/Player";
 import 'regenerator-runtime/runtime';
-import { VinylRecord } from "./components/VinylRecord";
-const user = require('./user.js');
+import { Home } from "./components/Home.js";
 
 // App's root element
 const rootElement = document.getElementById("root");
 
 // App's context
-const appContext = createContext(null);
+export const AppContext = createContext(null);
+
+function appReducer(state, action) {
+    let newState = { ...state };
+    console.log(newState);
+    switch (action.type) {
+        case "play":
+            newState.playback = action.payload;
+            break;
+
+        case "pause":
+            newState.playback = action.payload;
+            break;
+    }
+    return newState;
+}
 
 function App() {
+    const [state, dispatch] = useReducer(appReducer, {
+        playback: false
+    });
 
-    const [playlist, setPlaylist] = useState([]);
-
-    async function getMusicCards(userName) {
-        let playlist = await user.getPlaylist(userName);
-        let cardsList = playlist.map((music, index) => {
-            return (
-                <Track key={index} title={music.title.split('.mp3')[0]} src={music.src} />
-            )
-        })
-        setPlaylist(cardsList);
-    }
-
-    useEffect(() => {
-        getMusicCards('user1');
-    }, [])
-    
     return (
         <>
-            <Navbs />
-            <Row style={{ paddingBottom: '100px' }} >
-                <Col xs={2}></Col>
-                <Col >
-                    <Row xs={1} sm={2} md={3} lg={4} xl={5}  style={{ paddingBottom: '100px' }} >{playlist}</Row>
-                </Col>
-            </Row>
-            <Player />
+            <AppContext.Provider value={{ state, dispatch }}>
+                <Home />
+            </AppContext.Provider>
         </>
     );
 }
