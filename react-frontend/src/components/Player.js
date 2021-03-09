@@ -11,10 +11,6 @@ const user = require('../user.js');
 
 //> Render audio player
 export function Player() {
-    const [currMusic, setCurrMusic] = useState({
-        index: -1
-    })
-
     const [playlist, setPlaylist] = useState([]);
 
     const { state, dispatch } = useContext(AppContext);
@@ -32,22 +28,22 @@ export function Player() {
     return (
         <>
             <AudioPlayer
-                src={playlist[currMusic.index]?.src}
+                src={playlist[state.index]?.src}
                 className="footer-player"
                 showSkipControls={true}
                 autoPlayAfterSrcChange={true}
-                header={playlist[currMusic.index]?.title.split('.mp3')[0]}
+                header={playlist[state.index]?.title.split('.mp3')[0]}
                 layout="stacked"
 
                 onPlay={() => dispatch({ type: "play", payload: true })}
                 onPause={() => dispatch({ type: "pause", payload: false })}
 
-                onClickPrevious={() => { setCurrMusic({ index: currMusic.index - 1 }) }}
-                onClickNext={() => { setCurrMusic({ index: currMusic.index + 1 }) }}
+                onClickPrevious={() => dispatch({ type: 'previous track', payload: state.index })}
+                onClickNext={() => dispatch({ type: 'next track', payload: state.index })}
 
-                onEnded={() => setCurrMusic({ index: currMusic.index + 1 })}
+                onEnded={() => dispatch({ type: 'next track', payload: state.index })}
 
-                style={{paddingLeft: '150px', paddingRight: '150px'}}
+                style={{ paddingLeft: '150px', paddingRight: '150px' }}
             />
         </>
     );

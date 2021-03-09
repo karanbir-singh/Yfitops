@@ -13,7 +13,6 @@ export const AppContext = createContext(null);
 
 function appReducer(state, action) {
     let newState = { ...state };
-    console.log(newState);
     switch (action.type) {
         case "play":
             newState.playback = action.payload;
@@ -22,13 +21,26 @@ function appReducer(state, action) {
         case "pause":
             newState.playback = action.payload;
             break;
+
+        case "choose track":
+            newState.index = action.payload;
+            break;
+
+        case "previous track":
+            newState.index = action.payload - 1;
+            break;
+
+        case "next track":
+            newState.index = action.payload + 1;
+            break;
     }
     return newState;
 }
 
 function App() {
     const [state, dispatch] = useReducer(appReducer, {
-        playback: false
+        playback: false,
+        index: -1
     });
 
     return (

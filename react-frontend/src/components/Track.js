@@ -22,8 +22,9 @@ export function Track(props) {
                         <Card.Title>{props.title}</Card.Title>
                         <Row className="align-items-center">
                             <Col style={{ textAlign: 'center' }}>
-                                <Button variant="outline-dark" style={{ width: '50px', height: '50px', borderRadius: "100%" }}>
-                                    <i className="material-icons">play_arrow</i>
+                                <Button className="card-button" variant="outline-dark" onClick={() => dispatch({ type: 'choose track', payload: props.trackIndex })}
+                                    style={{ width: '50px', height: '50px', borderRadius: "100%" }}>
+                                    {state.index === props.trackIndex ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}
                                 </Button>
                             </Col>
                         </Row>

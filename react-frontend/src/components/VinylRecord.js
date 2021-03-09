@@ -7,8 +7,7 @@ import { Image } from "react-bootstrap";
 import { AppContext } from "../index.js";
 
 export function VinylRecord() {
-    const types = ['blue', 'green', 'lightblue', 'orange', 'purple', 'red'];
-    //const types = ['blue_big', 'green_big', 'orange_big', 'red_big'];
+    const types = Object.keys(vinyls);
 
     const [localState, setState] = useState({
         img: vinyls[types[Math.floor(Math.random() * types.length)]]
