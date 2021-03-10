@@ -1,69 +1,71 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../styles.css";
-import assets from "../assets/*.png";
-import { Button } from "react-bootstrap";
 import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
-
-//> Get a reference to the storage service, which is used to create references in your storage bucket
-var storage = firebase.storage();
-
-//> Create a storage reference from our storage service
-const storageRef = storage.ref();
+import { AppContext } from "../index.js";
+const user = require('../user.js');
 
 //> Render audio player
 export function Player() {
 
-    //Current
-    const [currMusic, setCurrMusic] = useState({
-        index: -1
-    })
+    const [playlist, setPlaylist] = useState([]);
 
-    const [playlist, setPlaylist] = useState([])
+    const { state, dispatch } = useContext(AppContext);
 
-    //* Get single online file download/play URL
-    async function getFileURL(user, fileName) {
-        return await storageRef.child(user + "/" + fileName).getDownloadURL();
-    }
-
-    //* Get user uploaded file names
-    async function getUserFileNames(user) {
-        return (await storageRef.child(user).listAll())._delegate.items.map(item => { return item._location.path_.split('/')[1] });
-    }
-
-    //* Get User playlist
-    async function getUserPlaylist(user) {
-        let titles = await getUserFileNames(user);
-
-        let list = [];
-        for (const title of titles) {
-            list.push({ title: title, src: await getFileURL(user, title) });
-        }
-        setPlaylist(list);
+    //* Set User playlist
+    async function setUserPlaylist(userName) {
+        setPlaylist(await user.getPlaylist(userName));
     }
 
     //* Similar to componentDidMount
     useEffect(() => {
-        getUserPlaylist('user1');
+        setUserPlaylist('user1');
     }, [])
+
+    // Formats the track title
+    function formatTitle(title) {
+        if (title === undefined) {
+            return;
+        }
+        if (title.includes('.mp3')) {
+            return title.split('.mp3')[0];
+        }
+        if (title.includes('.m4a')) {
+            return title.split('.m4a')[0];
+        }
+        if (title.includes('.flac')) {
+            return title.split('.flac')[0];
+        }
+    }
 
     return (
         <>
             <AudioPlayer
-                src={playlist[currMusic.index]?.src}
+                src={playlist[state.index]?.src}
                 className="footer-player"
                 showSkipControls={true}
                 autoPlayAfterSrcChange={true}
-                header={playlist[currMusic.index]?.title}
+                header={formatTitle(playlist[state.index]?.title)}
                 layout="stacked"
 
-                onEnded={() => setCurrMusic({ index: currMusic.index + 1 })}
-                onClickPrevious={() => setCurrMusic({ index: currMusic.index - 1 })}
-                onClickNext={() => setCurrMusic({ index: currMusic.index + 1 })}
-            />
+                onPlay={() => dispatch({ type: "play", payload: true })}
+                onPause={() => dispatch({ type: "pause", payload: false })}
 
+                onClickPrevious={() => {
+                    dispatch({ type: 'previous track', payload: state.index });
+                }}
+                onClickNext={() => {
+                    dispatch({ type: 'next track', payload: state.index });
+                }}
+
+                onEnded={() => {
+                    dispatch({ type: 'next track', payload: state.index });
+                }}
+
+                style={{ paddingLeft: '150px', paddingRight: '150px' }}
+            />
         </>
     );
 };

@@ -16,12 +16,21 @@ html, body {
   color: #2ee66b;
 }
 
-.footer-player{
+.footer-player {
   position: fixed;
   left: 0;
   bottom: 0;
 }
 
-.rhap_header{
+.rhap_header {
   text-align: center;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
 }
