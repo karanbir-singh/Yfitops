@@ -17,7 +17,8 @@ async function getFileURL(user, filePath) {
 
 //* Get user uploaded file names
 async function getFileNames(user) {
-    return (await storageRef.child(user).listAll())._delegate.items.map(item => { return item._location.path_.split('/')[1] });
+    console.log(await storageRef.child(user).listAll());
+    return (await storageRef.child(user).listAll())._delegate.items.map(item => { return item._location.path_.split('/')[1]; });
 }
 
 //* Get User playlist

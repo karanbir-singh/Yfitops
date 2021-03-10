@@ -4,13 +4,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "../styles.css";
 import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
-import { VinylRecord } from "./VinylRecord";
-import { Col, Row } from "react-bootstrap";
 import { AppContext } from "../index.js";
 const user = require('../user.js');
 
 //> Render audio player
 export function Player() {
+
     const [playlist, setPlaylist] = useState([]);
 
     const { state, dispatch } = useContext(AppContext);
@@ -25,6 +24,22 @@ export function Player() {
         setUserPlaylist('user1');
     }, [])
 
+    // Formats the track title
+    function formatTitle(title) {
+        if (title === undefined) {
+            return;
+        }
+        if (title.includes('.mp3')) {
+            return title.split('.mp3')[0];
+        }
+        if (title.includes('.m4a')) {
+            return title.split('.m4a')[0];
+        }
+        if (title.includes('.flac')) {
+            return title.split('.flac')[0];
+        }
+    }
+
     return (
         <>
             <AudioPlayer
@@ -32,16 +47,22 @@ export function Player() {
                 className="footer-player"
                 showSkipControls={true}
                 autoPlayAfterSrcChange={true}
-                header={playlist[state.index]?.title.split('.mp3')[0]}
+                header={formatTitle(playlist[state.index]?.title)}
                 layout="stacked"
 
                 onPlay={() => dispatch({ type: "play", payload: true })}
                 onPause={() => dispatch({ type: "pause", payload: false })}
 
-                onClickPrevious={() => dispatch({ type: 'previous track', payload: state.index })}
-                onClickNext={() => dispatch({ type: 'next track', payload: state.index })}
+                onClickPrevious={() => {
+                    dispatch({ type: 'previous track', payload: state.index });
+                }}
+                onClickNext={() => {
+                    dispatch({ type: 'next track', payload: state.index });
+                }}
 
-                onEnded={() => dispatch({ type: 'next track', payload: state.index })}
+                onEnded={() => {
+                    dispatch({ type: 'next track', payload: state.index });
+                }}
 
                 style={{ paddingLeft: '150px', paddingRight: '150px' }}
             />
