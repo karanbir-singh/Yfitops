@@ -64,7 +64,7 @@ export function Player() {
                     dispatch({ type: 'next track', payload: state.index });
                 }}
 
-                style={{ paddingLeft: '150px', paddingRight: '150px' }}
+                style={{ paddingLeft: '150px', paddingRight: '150px'}}
             />
         </>
     );

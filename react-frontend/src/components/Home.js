@@ -8,6 +8,7 @@ import { Col, Row, Spinner } from "react-bootstrap";
 import { Player } from "./Player";
 import { VinylRecord } from "./VinylRecord";
 import { AppContext } from "../index.js";
+import { ReactSidenav } from "./ReactSideNav";
 const user = require('../user.js');
 
 export function Home() {
@@ -32,12 +33,13 @@ export function Home() {
     return (
         <>
             <Navbs />
-            {/* <Row>
-                <Col xs={2}></Col>
-                <Col > */}
-            <Row xs={1} sm={2} md={3} lg={4} xl={5} style={{ paddingBottom: '120px' }} >{playlist}</Row>
-            {/* </Col>
-            </Row> */}
+            <Row>
+                <Col xs={1}><ReactSidenav /></Col>
+                <Col >
+                    <Row xs={1} sm={2} md={3} lg={4} xl={5} style={{ paddingBottom: '120px' }} >{playlist}</Row>
+                </Col>
+            </Row>
+
             <VinylRecord />
             <Player />
         </>
