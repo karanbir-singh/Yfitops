@@ -32,7 +32,7 @@ export function Track(props) {
     return (
         <>
             <Col>
-                <Card style={{ maxWidth: '22.8rem', marginTop: '10px', marginLeft: '5px' }}>
+                <Card style={{ maxWidth: '22.8rem', marginTop: '10px' }}>
                     <Card.Img variant="top" src={localState.img} />
                     <Card.Body>
                         <Card.Title>{formatTitle(props.title)}</Card.Title>

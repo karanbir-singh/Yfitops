@@ -8,12 +8,11 @@ import { Button, Form, FormControl, Nav, Navbar } from "react-bootstrap";
 export function Navbs() {
     return (
         <>
-            <Navbar bg="light" expand="lg">
+            <Navbar bg="light" expand="lg" className="navbs" style={{position: 'fixed', top: 0, left: 0, width: '100%', zIndex: 1}}>
                 <Navbar.Brand href="../../public/index.html"><img src={logo} width="30px" height="30px"></img></Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
-                        <Nav.Link href="../../public/index.html">Home</Nav.Link>
                         <Form inline>
                             <FormControl type="text" placeholder="Search" className="mr-sm-2" />
                             <Button variant="outline-primary">Search</Button>

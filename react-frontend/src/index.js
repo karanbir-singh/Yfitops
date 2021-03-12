@@ -33,6 +33,10 @@ function appReducer(state, action) {
         case "next track":
             newState.index = action.payload + 1;
             break;
+
+        case "side-nav expanded":
+            newState.isSideNavExpanded = action.payload;
+            break;
     }
     return newState;
 }
@@ -40,7 +44,8 @@ function appReducer(state, action) {
 function App() {
     const [state, dispatch] = useReducer(appReducer, {
         playback: false,
-        index: -1
+        index: -1,
+        isSideNavExpanded: false
     });
 
     return (

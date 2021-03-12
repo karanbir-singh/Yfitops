@@ -54,17 +54,17 @@ export function Player() {
                 onPause={() => dispatch({ type: "pause", payload: false })}
 
                 onClickPrevious={() => {
-                    dispatch({ type: 'previous track', payload: state.index });
+                    (state.index > 0) ? dispatch({ type: 'previous track', payload: state.index }) : null;
                 }}
                 onClickNext={() => {
-                    dispatch({ type: 'next track', payload: state.index });
+                    (state.index < playlist.length - 1) ? dispatch({ type: 'next track', payload: state.index }) : null;
                 }}
 
                 onEnded={() => {
                     dispatch({ type: 'next track', payload: state.index });
                 }}
 
-                style={{ paddingLeft: '150px', paddingRight: '150px'}}
+                style={{ paddingLeft: '150px', paddingRight: '150px', zIndex: 1 }}
             />
         </>
     );

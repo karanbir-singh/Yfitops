@@ -34,9 +34,9 @@ export function Home() {
         <>
             <Navbs />
             <Row>
-                <Col xs={1}><ReactSidenav /></Col>
+                <Col xs={state.isSideNavExpanded ? 2 : 1}><ReactSidenav /></Col>
                 <Col >
-                    <Row xs={1} sm={2} md={3} lg={4} xl={5} style={{ paddingBottom: '120px' }} >{playlist}</Row>
+                    <Row xs={1} sm={2} md={3} lg={4} xl={5} style={{ paddingBottom: '120px', paddingTop: '59px' }} >{playlist}</Row>
                 </Col>
             </Row>
 
