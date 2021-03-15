@@ -37,6 +37,10 @@ function appReducer(state, action) {
         case "side-nav expanded":
             newState.isSideNavExpanded = action.payload;
             break;
+
+        case "modal displayed":
+            newState.isModalDisplayed = action.payload;
+            break;
     }
     return newState;
 }
@@ -45,7 +49,8 @@ function App() {
     const [state, dispatch] = useReducer(appReducer, {
         playback: false,
         index: -1,
-        isSideNavExpanded: false
+        isSideNavExpanded: false,
+        isModalDisplayed: false,
     });
 
     return (

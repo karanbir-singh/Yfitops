@@ -5,49 +5,57 @@ import "../styles.css";
 import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
 import { AppContext } from "../index.js";
-const user = require('../user.js');
 
 //> Render audio player
 export function Player() {
-
-    const [playlist, setPlaylist] = useState([]);
-
+    const [playlist, setPlaylist] = useLocalStorage('user-playlist');
     const { state, dispatch } = useContext(AppContext);
 
-    //* Set User playlist
-    async function setUserPlaylist(userName) {
-        setPlaylist(await user.getPlaylist(userName));
-    }
+    // Hook
+    function useLocalStorage(key, initialValue) {
+        // State to store our value
+        // Pass initial state function to useState so logic is only executed once
+        const [storedValue, setStoredValue] = useState(() => {
+            try {
+                // Get from local storage by key
+                const item = window.localStorage.getItem(key);
+                // Parse stored json or if none return initialValue
+                return item ? JSON.parse(item) : initialValue;
+            } catch (error) {
+                // If error also return initialValue
+                console.log(error);
+                return initialValue;
+            }
+        });
 
-    //* Similar to componentDidMount
-    useEffect(() => {
-        setUserPlaylist('user1');
-    }, [])
+        // Return a wrapped version of useState's setter function that ...
+        // ... persists the new value to localStorage.
+        const setValue = value => {
+            try {
+                // Allow value to be a function so we have same API as useState
+                const valueToStore =
+                    value instanceof Function ? value(storedValue) : value;
+                // Save state
+                setStoredValue(valueToStore);
+                // Save to local storage
+                window.localStorage.setItem(key, JSON.stringify(valueToStore));
+            } catch (error) {
+                // A more advanced implementation would handle the error case
+                console.log(error);
+            }
+        };
 
-    // Formats the track title
-    function formatTitle(title) {
-        if (title === undefined) {
-            return;
-        }
-        if (title.includes('.mp3')) {
-            return title.split('.mp3')[0];
-        }
-        if (title.includes('.m4a')) {
-            return title.split('.m4a')[0];
-        }
-        if (title.includes('.flac')) {
-            return title.split('.flac')[0];
-        }
+        return [storedValue, setValue];
     }
 
     return (
-        <>
+        <>  {}
             <AudioPlayer
                 src={playlist[state.index]?.src}
                 className="footer-player"
                 showSkipControls={true}
                 autoPlayAfterSrcChange={true}
-                header={formatTitle(playlist[state.index]?.title)}
+                header={playlist[state.index]?.title}
                 layout="stacked"
 
                 onPlay={() => dispatch({ type: "play", payload: true })}
@@ -61,7 +69,7 @@ export function Player() {
                 }}
 
                 onEnded={() => {
-                    dispatch({ type: 'next track', payload: state.index });
+                    (state.index < playlist.length - 1) ? dispatch({ type: 'next track', payload: state.index }) : null;
                 }}
 
                 style={{ paddingLeft: '150px', paddingRight: '150px', zIndex: 1 }}
