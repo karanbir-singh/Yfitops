@@ -5,24 +5,11 @@ import "../styles.css";
 import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
 import { AppContext } from "../index.js";
-const user = require('../user.js');
 
 //> Render audio player
-export function Player() {
-
-    const [playlist, setPlaylist] = useState([]);
-
+export function Player(props) {
+    const [playlist, setPlaylist] = useState(props.user_playlist);
     const { state, dispatch } = useContext(AppContext);
-
-    //* Set User playlist
-    async function setUserPlaylist(userName) {
-        setPlaylist(await user.getPlaylist(userName));
-    }
-
-    //* Similar to componentDidMount
-    useEffect(() => {
-        setUserPlaylist('user1');
-    }, [])
 
     // Formats the track title
     function formatTitle(title) {
@@ -43,28 +30,29 @@ export function Player() {
     return (
         <>
             <AudioPlayer
+                header={formatTitle(playlist[state.index]?.title)}
                 src={playlist[state.index]?.src}
                 className="footer-player"
+
                 showSkipControls={true}
                 autoPlayAfterSrcChange={true}
-                header={formatTitle(playlist[state.index]?.title)}
                 layout="stacked"
 
                 onPlay={() => dispatch({ type: "play", payload: true })}
                 onPause={() => dispatch({ type: "pause", payload: false })}
 
                 onClickPrevious={() => {
-                    dispatch({ type: 'previous track', payload: state.index });
+                    (state.index > 0) ? dispatch({ type: 'previous track', payload: state.index }) : null;
                 }}
                 onClickNext={() => {
-                    dispatch({ type: 'next track', payload: state.index });
+                    (state.index < playlist.length - 1) ? dispatch({ type: 'next track', payload: state.index }) : null;
                 }}
 
                 onEnded={() => {
-                    dispatch({ type: 'next track', payload: state.index });
+                    (state.index < playlist.length - 1) ? dispatch({ type: 'next track', payload: state.index }) : null;
                 }}
 
-                style={{ paddingLeft: '150px', paddingRight: '150px' }}
+                style={{ paddingLeft: '150px', paddingRight: '150px', zIndex: 1 }}
             />
         </>
     );

@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useReducer, useState } from "react";
 import ReactDOM from "react-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./styles.css";
@@ -33,6 +33,14 @@ function appReducer(state, action) {
         case "next track":
             newState.index = action.payload + 1;
             break;
+
+        case "side-nav expanded":
+            newState.isSideNavExpanded = action.payload;
+            break;
+
+        case "modal displayed":
+            newState.isModalDisplayed = action.payload;
+            break;
     }
     return newState;
 }
@@ -40,7 +48,9 @@ function appReducer(state, action) {
 function App() {
     const [state, dispatch] = useReducer(appReducer, {
         playback: false,
-        index: -1
+        index: -1,
+        isSideNavExpanded: false,
+        isModalDisplayed: false
     });
 
     return (
@@ -53,8 +63,6 @@ function App() {
 }
 
 ReactDOM.render(
-    <React.StrictMode>
-        <App />
-    </React.StrictMode>,
+    <App />,
     rootElement
 );

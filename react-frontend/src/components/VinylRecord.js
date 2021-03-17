@@ -24,7 +24,7 @@ export function VinylRecord() {
                     bottom: 0,
                     marginBottom: '10px',
                     animation: 'rotation 5s infinite linear',
-                    zIndex: 1,
+                    zIndex: 2,
                     marginLeft: '10px',
                     animationPlayState: state.playback ? 'running' : 'paused'
                 }}

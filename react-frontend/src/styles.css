@@ -26,6 +26,14 @@ html, body {
   text-align: center;
 }
 
+.trash-bin {
+  float: right;
+}
+
+.trash-bin:hover {
+  color: red;
+}
+
 @keyframes rotation {
   from {
     transform: rotate(0deg);

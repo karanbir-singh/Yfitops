@@ -1,7 +1,9 @@
+// Export functions
 module.exports = {
     getFileURL,
     getFileNames,
-    getPlaylist
+    addFile,
+    deleteFile
 }
 
 //> Get a reference to the storage service, which is used to create references in your storage bucket
@@ -17,17 +19,34 @@ async function getFileURL(user, filePath) {
 
 //* Get user uploaded file names
 async function getFileNames(user) {
-    console.log(await storageRef.child(user).listAll());
+    // Get file names within the user folder
     return (await storageRef.child(user).listAll())._delegate.items.map(item => { return item._location.path_.split('/')[1]; });
 }
 
-//* Get User playlist
-async function getPlaylist(user) {
-    let titles = await getFileNames(user);
+//* Add file on Firebase storage
+async function addFile(user, file) {
+    // New file reference
+    const fileRef = storageRef.child(user + '/' + file.name);
 
-    let list = [];
-    for (const title of titles) {
-        list.push({ title: title, src: await getFileURL(user, title) });
-    }
-    return list;
+    // Send file to the storage
+    const req = await fileRef.put(file).then((snapshot) => {
+        return getFileURL(user, file.name);
+    });
+
+    return req;
+}
+
+//* Delete file on Firebase storage
+async function deleteFile(user, fileName) {
+    // File to delete
+    const fileRef = storageRef.child(user + '/' + fileName);
+    console.log(fileName, fileRef);
+
+    // Delete the file
+    fileRef.delete().then(() => {
+        // File deleted successfully
+    }).catch((error) => {
+        // Uh-oh, an error occurred!
+        console.log(error);
+    });
 }
