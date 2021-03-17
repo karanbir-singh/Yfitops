@@ -39,7 +39,7 @@ export function Home() {
 
             let newList = [];
             for (const title of titles) {
-                newList = [...newList, { title: formatTitle(title), src: await user.getFileURL(userName, title) }];
+                newList = [...newList, { title: title, src: await user.getFileURL(userName, title) }];
                 setPlaylist(newList);
             }
         }
@@ -49,7 +49,7 @@ export function Home() {
     function getCardslist(playlist) {
         let cardsList = playlist.map((music, index) => {
             return (
-                <Track key={index} trackIndex={index} title={music.title} src={music.src} />
+                <Track key={index} trackIndex={index} title={formatTitle(music.title)} src={music.src} />
             )
         });
         return cardsList;
@@ -109,7 +109,9 @@ export function Home() {
             </Row>
             <VinylRecord />
             <Player key={playlist.length} user_playlist={playlist} />
-            <TrackModal show={state.isModalDisplayed} onHide={() => dispatch({ type: "modal displayed", payload: false })} />
+            <TrackModal key={playlist.length + 1} user_playlist={[playlist, setPlaylist]} show={state.isModalDisplayed}
+                onHide={() => dispatch({ type: "modal displayed", payload: false })}
+            />
         </>
     );
 }

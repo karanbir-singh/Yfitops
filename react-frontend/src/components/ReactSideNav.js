@@ -9,6 +9,7 @@ const user = require('../user.js');
 
 export function ReactSidenav(props) {
     const { state, dispatch } = useContext(AppContext);
+    const [recentPlayed, setRecentPlayed] = useState([]);
 
     // Formats the track title
     function formatTitle(title) {
@@ -27,7 +28,7 @@ export function ReactSidenav(props) {
     }
 
     async function addTrack(userName, file) {
-        let newTrack = { title: formatTitle(file.name), src: await user.addFile(userName, file) };
+        let newTrack = { title: file.name, src: await user.addFile(userName, file) };
         let updatedPlaylist = [...props.user_playlist[0], newTrack];
         props.user_playlist[1](updatedPlaylist);
     }
@@ -62,18 +63,15 @@ export function ReactSidenav(props) {
                         <NavText>
                             Recent played
                         </NavText>
-
-                        <NavItem eventKey="recent played/track1">
-                            <NavText>
-                                Upload track
-                            </NavText>
-                        </NavItem>
-
-                        <NavItem eventKey="recent played/track2">
-                            <NavText>
-                                Upload track
-                            </NavText>
-                        </NavItem>
+                        {/* {recentPlayed.map((track) => {
+                            return (
+                                <NavItem eventKey={"recent played/" + track?.title}>
+                                    <NavText>
+                                        {track?.title}
+                                    </NavText>
+                                </NavItem>
+                            );
+                        })} */}
                     </NavItem>
 
                     <NavItem eventKey="upload">

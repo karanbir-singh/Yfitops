@@ -11,10 +11,26 @@ export function Player(props) {
     const [playlist, setPlaylist] = useState(props.user_playlist);
     const { state, dispatch } = useContext(AppContext);
 
+    // Formats the track title
+    function formatTitle(title) {
+        if (title === undefined) {
+            return;
+        }
+        if (title.includes('.mp3')) {
+            return title.split('.mp3')[0];
+        }
+        if (title.includes('.m4a')) {
+            return title.split('.m4a')[0];
+        }
+        if (title.includes('.flac')) {
+            return title.split('.flac')[0];
+        }
+    }
+
     return (
         <>
             <AudioPlayer
-                header={playlist[state.index]?.title}
+                header={formatTitle(playlist[state.index]?.title)}
                 src={playlist[state.index]?.src}
                 className="footer-player"
 

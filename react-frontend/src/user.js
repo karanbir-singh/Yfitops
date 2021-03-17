@@ -2,7 +2,8 @@
 module.exports = {
     getFileURL,
     getFileNames,
-    addFile
+    addFile,
+    deleteFile
 }
 
 //> Get a reference to the storage service, which is used to create references in your storage bucket
@@ -26,11 +27,26 @@ async function getFileNames(user) {
 async function addFile(user, file) {
     // New file reference
     const fileRef = storageRef.child(user + '/' + file.name);
-    
+
     // Send file to the storage
     const req = await fileRef.put(file).then((snapshot) => {
         return getFileURL(user, file.name);
     });
 
     return req;
+}
+
+//* Delete file on Firebase storage
+async function deleteFile(user, fileName) {
+    // File to delete
+    const fileRef = storageRef.child(user + '/' + fileName);
+    console.log(fileName, fileRef);
+
+    // Delete the file
+    fileRef.delete().then(() => {
+        // File deleted successfully
+    }).catch((error) => {
+        // Uh-oh, an error occurred!
+        console.log(error);
+    });
 }
