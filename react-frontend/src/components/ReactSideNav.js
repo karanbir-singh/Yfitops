@@ -11,6 +11,11 @@ export function ReactSidenav() {
 
     const { state, dispatch } = useContext(AppContext);
 
+    async function addFile(userName, file) {
+        user.addFile(userName, file).then((url) => {console.log(url);});
+    }
+
+
     // Hook
     function useLocalStorage(key, initialValue) {
         // State to store our value
@@ -71,15 +76,6 @@ export function ReactSidenav() {
             >
                 <SideNav.Toggle />
                 <SideNav.Nav defaultSelected="home">
-                    {/* <NavItem eventKey="home">
-                        <NavIcon>
-                            <i className="material-icons" style={{ fontSize: '1.60em' }} >home</i>
-                        </NavIcon>
-                        <NavText>
-                            Home
-                        </NavText>
-                    </NavItem> */}
-
                     <NavItem eventKey="recent played">
                         <NavIcon>
                             <i className="material-icons" style={{ fontSize: '1.80em' }} >slow_motion_video</i>
@@ -107,7 +103,9 @@ export function ReactSidenav() {
                         </NavIcon>
                         <NavText>
                             Upload track
-                            <input type="file" id="track-upload" style={{ visibility: 'hidden' }} onChange={(event) => user.addFile('user1', event.target.files[0])}></input>
+                            <input type="file" id="track-upload"
+                                style={{ visibility: 'hidden' }}
+                                onChange={(event) => addFile('user1', event.target.files[0])}></input>
                         </NavText>
                     </NavItem>
 

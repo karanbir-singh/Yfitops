@@ -13,13 +13,35 @@ import { TrackModal } from "./TrackModal";
 const user = require('../user.js');
 
 export function Home() {
-    const [playlist, setPlaylist] = useLocalStorage('user-playlist');
+    const [playlist, setPlaylist] = useLocalStorage('user-playlist', []);
     const { state, dispatch } = useContext(AppContext);
+
+    // Formats the track title
+    function formatTitle(title) {
+        if (title === undefined) {
+            return;
+        }
+        if (title.includes('.mp3')) {
+            return title.split('.mp3')[0];
+        }
+        if (title.includes('.m4a')) {
+            return title.split('.m4a')[0];
+        }
+        if (title.includes('.flac')) {
+            return title.split('.flac')[0];
+        }
+    }
 
     //Get user playlist
     async function getUserPlaylist(userName) {
-        if (playlist === null) {
-            setPlaylist(await user.getPlaylist(userName));
+        if (playlist.length === 0) {
+            let titles = await user.getFileNames(userName);
+
+            let newList = [];
+            for (const title of titles) {
+                newList = [...newList, { title: formatTitle(title), src: await user.getFileURL(userName, title) }];
+                setPlaylist(newList);
+            }
         }
     }
 
@@ -80,11 +102,13 @@ export function Home() {
             <Row>
                 <Col xs={state.isSideNavExpanded ? 2 : 1}><ReactSidenav /></Col>
                 <Col >
-                    <Row xs={1} sm={2} md={3} lg={4} xl={5} style={{ paddingBottom: '120px', paddingTop: '59px', paddingRight: '10px' }} >{playlist ? getCardslist(playlist) : null}</Row>
+                    <Row xs={1} sm={2} md={3} lg={4} xl={5}
+                        style={{ paddingBottom: '120px', paddingTop: '59px', paddingRight: '10px', maxWidth: '100%' }}
+                    >{getCardslist(playlist)}</Row>
                 </Col>
             </Row>
             <VinylRecord />
-            <Player />
+            <Player key={playlist.length} user_playlist={playlist} />
             <TrackModal show={state.isModalDisplayed} onHide={() => dispatch({ type: "modal displayed", payload: false })} />
         </>
     );
