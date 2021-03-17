@@ -62,7 +62,7 @@ export function Home() {
         const [storedValue, setStoredValue] = useState(() => {
             try {
                 // Get from local storage by key
-                const item = window.localStorage.getItem(key);
+                const item = window.sessionStorage.getItem(key);
                 // Parse stored json or if none return initialValue
                 return item ? JSON.parse(item) : initialValue;
             } catch (error) {
@@ -82,7 +82,7 @@ export function Home() {
                 // Save state
                 setStoredValue(valueToStore);
                 // Save to local storage
-                window.localStorage.setItem(key, JSON.stringify(valueToStore));
+                window.sessionStorage.setItem(key, JSON.stringify(valueToStore));
             } catch (error) {
                 // A more advanced implementation would handle the error case
                 console.log(error);
@@ -100,7 +100,7 @@ export function Home() {
         <>
             <Navbs />
             <Row>
-                <Col xs={state.isSideNavExpanded ? 2 : 1}><ReactSidenav /></Col>
+                <Col xs={state.isSideNavExpanded ? 2 : 1}><ReactSidenav user_playlist={[playlist, setPlaylist]} /></Col>
                 <Col >
                     <Row xs={1} sm={2} md={3} lg={4} xl={5}
                         style={{ paddingBottom: '120px', paddingTop: '59px', paddingRight: '10px', maxWidth: '100%' }}

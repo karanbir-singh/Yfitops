@@ -14,11 +14,11 @@ export function Navbs() {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
                         <Form inline>
-                            <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+                            <FormControl type="text" placeholder="Track name" className="mr-sm-2" />
                             <Button variant="outline-primary">Search</Button>
                         </Form>
                     </Nav>
-                    <Nav.Link href="../../public/auth.html" onClick={() => console.log("PROVA")}>Accedi</Nav.Link>
+                    <Nav.Link href="../../public/auth.html" onClick={() => console.log("PROVA")}>Sign out</Nav.Link>
                 </Navbar.Collapse>
             </Navbar>
         </>

@@ -1,7 +1,7 @@
+// Export functions
 module.exports = {
     getFileURL,
     getFileNames,
-    getPlaylist,
     addFile
 }
 
@@ -18,6 +18,7 @@ async function getFileURL(user, filePath) {
 
 //* Get user uploaded file names
 async function getFileNames(user) {
+    // Get file names within the user folder
     return (await storageRef.child(user).listAll())._delegate.items.map(item => { return item._location.path_.split('/')[1]; });
 }
 
@@ -32,15 +33,4 @@ async function addFile(user, file) {
     });
 
     return req;
-}
-
-//* Get User playlist
-async function getPlaylist(user) {
-    let titles = await getFileNames(user);
-
-    let list = [];
-    for (const title of titles) {
-        list.push({ title: title, src: await getFileURL(user, title) });
-    }
-    return list;
 }
