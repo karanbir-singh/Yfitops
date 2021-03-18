@@ -13,18 +13,14 @@ export function TrackModal(props) {
     );
 
     async function deleteTracks() {
-        let checkedTracksIndexes = playlist.map((track, index) => track.checked ? index : null).filter(i => i !== null);
-        let deleteTracks = [];
+        let updatedList = playlist.filter(track => { return track.checked === false });
+        let tracksToDelete = playlist.filter(track => { return track.checked === true });
 
-        // First: update localStorage
-        checkedTracksIndexes.forEach(index => {
-            deleteTracks.push(playlist.splice(index, 1)[0].title);
-        });
-        props.user_playlist[1](playlist);
+        props.user_playlist[1](updatedList);
 
         // Second: delete stored files
-        deleteTracks.forEach(title => {
-            user.deleteFile('user1', title);
+        tracksToDelete.forEach(track => {
+            user.deleteFile('user1', track.title);
         })
     }
 
@@ -48,7 +44,7 @@ export function TrackModal(props) {
                             <InputGroup key={index} className="mb-3">
                                 <InputGroup.Prepend>
                                     <InputGroup.Checkbox aria-label="Checkbox for following text input"
-                                        onChange={() => playlist[index].checked = true}
+                                        onChange={() => { playlist[index].checked = true }}
                                     />
                                 </InputGroup.Prepend>
                                 <FormControl aria-label="Text input with checkbox" placeholder={track.title} disabled />

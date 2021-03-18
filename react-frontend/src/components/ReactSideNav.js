@@ -9,7 +9,6 @@ const user = require('../user.js');
 
 export function ReactSidenav(props) {
     const { state, dispatch } = useContext(AppContext);
-    const [recentPlayed, setRecentPlayed] = useState([]);
 
     // Formats the track title
     function formatTitle(title) {
@@ -27,10 +26,12 @@ export function ReactSidenav(props) {
         }
     }
 
-    async function addTrack(userName, file) {
-        let newTrack = { title: file.name, src: await user.addFile(userName, file) };
-        let updatedPlaylist = [...props.user_playlist[0], newTrack];
-        props.user_playlist[1](updatedPlaylist);
+    async function addTracks(userName, files) {
+        let updatedList = [...props.user_playlist[0]];
+        for (const file of files) {
+            updatedList.push({ title: file.name, src: await user.addFile(userName, file) });  
+        }
+        props.user_playlist[1](updatedList);
     }
 
     return (
@@ -82,7 +83,8 @@ export function ReactSidenav(props) {
                             Upload track
                             <input type="file" id="track-upload"
                                 style={{ visibility: 'hidden' }}
-                                onChange={(event) => addTrack('user1', event.target.files[0])}></input>
+                                multiple
+                                onChange={(event) => addTracks('user1', event.target.files)}></input>
                         </NavText>
                     </NavItem>
 
