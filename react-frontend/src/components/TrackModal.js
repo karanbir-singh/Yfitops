@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../styles.css";
 import { Button, FormControl, InputGroup, Modal } from "react-bootstrap";
+import { AppContext } from "../index.js";
 const user = require('../user.js');
 
 export function TrackModal(props) {
@@ -11,6 +12,8 @@ export function TrackModal(props) {
             return { ...track, checked: false }
         })
     );
+    const [checkAll, setCheckAll] = useState(false)
+    const { state, dispatch } = useContext(AppContext);
 
     async function deleteTracks() {
         let updatedList = playlist.filter(track => { return track.checked === false });
@@ -33,10 +36,10 @@ export function TrackModal(props) {
                 centered
                 scrollable
             >
-                <Modal.Header closeButton>
+                <Modal.Header>
                     <Modal.Title id="contained-modal-title-vcenter">
                         Choose the tracks you want to delete
-                </Modal.Title>
+                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     {playlist.map((track, index) => {
@@ -53,8 +56,13 @@ export function TrackModal(props) {
                     })}
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={() => deleteTracks()}>Delete</Button>
-                    <Button onClick={props.onHide}>Close</Button>
+                    <Button variant="outline-danger" onClick={() => deleteTracks()}>Delete</Button>
+                    <Button onClick={() => {
+                        setPlaylist(playlist.map((track) => {
+                            return { ...track, checked: false }
+                        }))
+                        dispatch({ type: "modal displayed", payload: false })
+                    }}>Close</Button>
                 </Modal.Footer>
             </Modal>
         </>

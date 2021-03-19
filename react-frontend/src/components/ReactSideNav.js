@@ -5,10 +5,13 @@ import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../styles.css";
 import { AppContext } from "../index.js";
+import { Col, Container, Row, Spinner } from "react-bootstrap";
 const user = require('../user.js');
 
 export function ReactSidenav(props) {
     const { state, dispatch } = useContext(AppContext);
+    const [recentPlayed, setRecentPlayed] = useState([]);
+    const [isUploading, setIsUploading] = useState(false);
 
     // Formats the track title
     function formatTitle(title) {
@@ -27,12 +30,32 @@ export function ReactSidenav(props) {
     }
 
     async function addTracks(userName, files) {
+        setIsUploading(true);
+
         let updatedList = [...props.user_playlist[0]];
         for (const file of files) {
-            updatedList.push({ title: file.name, src: await user.addFile(userName, file) });  
+            updatedList.push({ title: file.name, src: await user.addFile(userName, file) });
         }
+
         props.user_playlist[1](updatedList);
+        setIsUploading(false);
     }
+
+    // Check if recentPlayed already contains the track 
+    function checkDuplicates(value) {
+        return (recentPlayed.map((track) => {
+            if (track.trackIndex === value.trackIndex) return true;
+        })).includes(true);
+    }
+
+    useEffect(() => {
+        let playedTrack = { ...props.user_playlist[0][state.index], trackIndex: state.index };
+
+        if (state.index !== -1 && recentPlayed.length < 8 && !checkDuplicates(playedTrack)) {
+            let updatedRecentPlayed = [playedTrack, ...recentPlayed];
+            setRecentPlayed(updatedRecentPlayed);
+        }
+    }, [state.index])
 
     return (
         <>
@@ -64,20 +87,21 @@ export function ReactSidenav(props) {
                         <NavText>
                             Recent played
                         </NavText>
-                        {/* {recentPlayed.map((track) => {
+                        {recentPlayed.map((track, index) => {
                             return (
-                                <NavItem eventKey={"recent played/" + track?.title}>
+                                <NavItem key={index} eventKey={"recent played/" + track?.title} onClick={() => { dispatch({ type: 'choose track', payload: track.trackIndex }) }}>
                                     <NavText>
-                                        {track?.title}
+                                        {formatTitle(track?.title)}
                                     </NavText>
                                 </NavItem>
                             );
-                        })} */}
+                        })}
                     </NavItem>
 
                     <NavItem eventKey="upload">
                         <NavIcon>
-                            <i className="material-icons" style={{ fontSize: '1.80em' }} >add</i>
+                            <i className="material-icons" style={{ fontSize: '1.80em', display: isUploading ? 'none' : '' }} >add</i>
+                            <Spinner animation="border" variant="light" size="sm" style={{ display: isUploading ? '' : 'none' }} />
                         </NavIcon>
                         <NavText>
                             Upload track
@@ -96,7 +120,6 @@ export function ReactSidenav(props) {
                             Delete track
                         </NavText>
                     </NavItem>
-
                 </SideNav.Nav>
             </SideNav>
         </>

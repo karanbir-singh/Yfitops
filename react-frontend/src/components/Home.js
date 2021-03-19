@@ -109,9 +109,7 @@ export function Home() {
             </Row>
             <VinylRecord />
             <Player key={playlist.length} user_playlist={playlist} />
-            <TrackModal key={playlist.length + 1} show={state.isModalDisplayed} user_playlist={[playlist, setPlaylist]}
-                onHide={() => dispatch({ type: "modal displayed", payload: false })}
-            />
+            <TrackModal key={playlist.length + 1} show={state.isModalDisplayed} user_playlist={[playlist, setPlaylist]} />
         </>
     );
 }
