@@ -30,7 +30,7 @@ async function addFile(user, file) {
 
     // Send file to the storage
     const req = await fileRef.put(file).then((snapshot) => {
-        return getFileURL(user, file.name);
+        return true;
     });
 
     return req;

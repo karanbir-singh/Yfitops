@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
+import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../styles.css";
 import { AppContext } from "../index.js";
-import { Col, Container, Row, Spinner } from "react-bootstrap";
+import { Spinner } from "react-bootstrap";
 const user = require('../user.js');
 
 export function ReactSidenav(props) {
@@ -34,10 +34,11 @@ export function ReactSidenav(props) {
 
         let updatedList = [...props.user_playlist[0]];
         for (const file of files) {
-            updatedList.push({ title: file.name, src: await user.addFile(userName, file), trackIndex: updatedList.length });
+            if (await user.addFile(userName, file)) {
+                updatedList = [...updatedList, { title:file.name, src: await user.getFileURL(userName, file.name), trackIndex: updatedList.length }];
+                props.user_playlist[1](updatedList);
+            }
         }
-
-        props.user_playlist[1](updatedList);
         setIsUploading(false);
     }
 
