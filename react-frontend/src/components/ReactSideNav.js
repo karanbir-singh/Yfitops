@@ -34,7 +34,7 @@ export function ReactSidenav(props) {
 
         let updatedList = [...props.user_playlist[0]];
         for (const file of files) {
-            updatedList.push({ title: file.name, src: await user.addFile(userName, file) });
+            updatedList.push({ title: file.name, src: await user.addFile(userName, file), trackIndex: updatedList.length });
         }
 
         props.user_playlist[1](updatedList);
@@ -49,7 +49,7 @@ export function ReactSidenav(props) {
     }
 
     useEffect(() => {
-        let playedTrack = { ...props.user_playlist[0][state.index], trackIndex: state.index };
+        let playedTrack = { ...props.user_playlist[0][state.index] };
 
         if (state.index !== -1 && recentPlayed.length < 8 && !checkDuplicates(playedTrack)) {
             let updatedRecentPlayed = [playedTrack, ...recentPlayed];
