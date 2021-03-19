@@ -41,6 +41,10 @@ function appReducer(state, action) {
         case "modal displayed":
             newState.isModalDisplayed = action.payload;
             break;
+
+        case "search tracks":
+            newState.searchedTracks = action.payload;
+            break;
     }
     return newState;
 }
@@ -50,7 +54,8 @@ function App() {
         playback: false,
         index: -1,
         isSideNavExpanded: false,
-        isModalDisplayed: false
+        isModalDisplayed: false,
+        searchedTracks: null
     });
 
     return (

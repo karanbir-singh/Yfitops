@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../styles.css";
 import { Button, FormControl, InputGroup, Modal } from "react-bootstrap";
+import { AppContext } from "../index.js";
 const user = require('../user.js');
 
 export function TrackModal(props) {
@@ -11,20 +12,18 @@ export function TrackModal(props) {
             return { ...track, checked: false }
         })
     );
+    const [checkAll, setCheckAll] = useState(false)
+    const { state, dispatch } = useContext(AppContext);
 
     async function deleteTracks() {
-        let checkedTracksIndexes = playlist.map((track, index) => track.checked ? index : null).filter(i => i !== null);
-        let deleteTracks = [];
+        let updatedList = playlist.filter(track => { return track.checked === false });
+        let tracksToDelete = playlist.filter(track => { return track.checked === true });
 
-        // First: update localStorage
-        checkedTracksIndexes.forEach(index => {
-            deleteTracks.push(playlist.splice(index, 1)[0].title);
-        });
-        props.user_playlist[1](playlist);
+        props.user_playlist[1](updatedList);
 
         // Second: delete stored files
-        deleteTracks.forEach(title => {
-            user.deleteFile('user1', title);
+        tracksToDelete.forEach(track => {
+            user.deleteFile('user1', track.title);
         })
     }
 
@@ -37,10 +36,10 @@ export function TrackModal(props) {
                 centered
                 scrollable
             >
-                <Modal.Header closeButton>
+                <Modal.Header>
                     <Modal.Title id="contained-modal-title-vcenter">
                         Choose the tracks you want to delete
-                </Modal.Title>
+                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     {playlist.map((track, index) => {
@@ -48,7 +47,7 @@ export function TrackModal(props) {
                             <InputGroup key={index} className="mb-3">
                                 <InputGroup.Prepend>
                                     <InputGroup.Checkbox aria-label="Checkbox for following text input"
-                                        onChange={() => playlist[index].checked = true}
+                                        onChange={() => { playlist[index].checked = true }}
                                     />
                                 </InputGroup.Prepend>
                                 <FormControl aria-label="Text input with checkbox" placeholder={track.title} disabled />
@@ -57,8 +56,13 @@ export function TrackModal(props) {
                     })}
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={() => deleteTracks()}>Delete</Button>
-                    <Button onClick={props.onHide}>Close</Button>
+                    <Button variant="outline-danger" onClick={() => deleteTracks()}>Delete</Button>
+                    <Button onClick={() => {
+                        setPlaylist(playlist.map((track) => {
+                            return { ...track, checked: false }
+                        }))
+                        dispatch({ type: "modal displayed", payload: false })
+                    }}>Close</Button>
                 </Modal.Footer>
             </Modal>
         </>

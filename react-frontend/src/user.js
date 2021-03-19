@@ -40,7 +40,6 @@ async function addFile(user, file) {
 async function deleteFile(user, fileName) {
     // File to delete
     const fileRef = storageRef.child(user + '/' + fileName);
-    console.log(fileName, fileRef);
 
     // Delete the file
     fileRef.delete().then(() => {

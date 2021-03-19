@@ -39,7 +39,7 @@ export function Home() {
 
             let newList = [];
             for (const title of titles) {
-                newList = [...newList, { title: title, src: await user.getFileURL(userName, title) }];
+                newList = [...newList, { title: title, src: await user.getFileURL(userName, title), trackIndex: newList.length }];
                 setPlaylist(newList);
             }
         }
@@ -47,9 +47,9 @@ export function Home() {
 
     //Create card for each track
     function getCardslist(playlist) {
-        let cardsList = playlist.map((music, index) => {
+        let cardsList = playlist.map((track, index) => {
             return (
-                <Track key={index} trackIndex={index} title={formatTitle(music.title)} src={music.src} />
+                <Track key={index} trackIndex={track.trackIndex} title={formatTitle(track.title)} src={track.src} />
             )
         });
         return cardsList;
@@ -98,20 +98,18 @@ export function Home() {
 
     return (
         <>
-            <Navbs />
+            <Navbs user_playlist={playlist} />
             <Row>
                 <Col xs={state.isSideNavExpanded ? 2 : 1}><ReactSidenav user_playlist={[playlist, setPlaylist]} /></Col>
                 <Col >
                     <Row xs={1} sm={2} md={3} lg={4} xl={5}
                         style={{ paddingBottom: '120px', paddingTop: '59px', paddingRight: '10px', maxWidth: '100%' }}
-                    >{getCardslist(playlist)}</Row>
+                    >{state.searchedTracks === null ? getCardslist(playlist) : getCardslist(state.searchedTracks)}</Row>
                 </Col>
             </Row>
             <VinylRecord />
             <Player key={playlist.length} user_playlist={playlist} />
-            <TrackModal key={playlist.length + 1} show={state.isModalDisplayed} user_playlist={[playlist, setPlaylist]}
-                onHide={() => dispatch({ type: "modal displayed", payload: false })}
-            />
+            <TrackModal key={playlist.length + 1} show={state.isModalDisplayed} user_playlist={[playlist, setPlaylist]} />
         </>
     );
 }
