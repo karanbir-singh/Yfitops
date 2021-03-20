@@ -93,7 +93,7 @@ export function Home() {
     }
 
     useEffect(() => {
-        getUserPlaylist('user1');
+        getUserPlaylist(state.user.email);
     }, [])
 
     return (

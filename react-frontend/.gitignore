@@ -1,5 +1,6 @@
 node_modules
 package-lock.json
+firebase_config.js
 .cache
 .firebase
 .firebaserc

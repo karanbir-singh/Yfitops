@@ -35,7 +35,7 @@ export function ReactSidenav(props) {
         let updatedList = [...props.user_playlist[0]];
         for (const file of files) {
             if (await user.addFile(userName, file)) {
-                updatedList = [...updatedList, { title:file.name, src: await user.getFileURL(userName, file.name), trackIndex: updatedList.length }];
+                updatedList = [...updatedList, { title: file.name, src: await user.getFileURL(userName, file.name), trackIndex: updatedList.length }];
                 props.user_playlist[1](updatedList);
             }
         }
@@ -90,7 +90,9 @@ export function ReactSidenav(props) {
                         </NavText>
                         {recentPlayed.map((track, index) => {
                             return (
-                                <NavItem key={index} eventKey={"recent played/" + track?.title} onClick={() => { dispatch({ type: 'choose track', payload: track.trackIndex }) }}>
+                                <NavItem key={index} eventKey={"recent played/" + track?.title}
+                                    onClick={() => { dispatch({ type: 'choose track', payload: track.trackIndex }) }}
+                                >
                                     <NavText>
                                         {formatTitle(track?.title)}
                                     </NavText>
@@ -109,7 +111,7 @@ export function ReactSidenav(props) {
                             <input type="file" id="track-upload"
                                 style={{ visibility: 'hidden' }}
                                 multiple
-                                onChange={(event) => addTracks('user1', event.target.files)}></input>
+                                onChange={(event) => addTracks(state.user.email, event.target.files)}></input>
                         </NavText>
                     </NavItem>
 

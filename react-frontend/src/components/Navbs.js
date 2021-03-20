@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../styles.css";
 import logo from "../assets/logo.png";
-import { Form, FormControl, Nav, Navbar } from "react-bootstrap";
+import { Form, FormControl, Image, Nav, Navbar } from "react-bootstrap";
 import { AppContext } from "../index.js";
 
 export function Navbs(props) {
@@ -40,7 +40,11 @@ export function Navbs(props) {
                             <p style={{ marginLeft: '10px', marginBottom: '0px' }} >Copyright © 2021 Singh Karanbir. All rights riserved.</p>
                         </Form>
                     </Nav>
-                    <Nav.Link href="../../public/auth.html" onClick={() => console.log("PROVA")}>Sign out</Nav.Link>
+                    {state.user.image ?
+                        <Image src={state.user.image} style={{ marginBottom: '0px', marginRight: '7px', maxWidth: '25px', maxHeight: '25px' }} roundedCircle /> :
+                        <i className="material-icons" style={{ marginBottom: '0px', marginRight: '7px', maxWidth: '25px', maxHeight: '25px' }}>account_circle</i>}
+                    <p style={{ marginBottom: '0px' }}>{state.user.name}</p>
+                    <Nav.Link onClick={() => dispatch({ type: "logout", payload: null })}>Sign out</Nav.Link>
                 </Navbar.Collapse>
             </Navbar>
         </>

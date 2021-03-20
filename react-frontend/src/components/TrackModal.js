@@ -23,7 +23,7 @@ export function TrackModal(props) {
 
         // Second: delete stored files
         tracksToDelete.forEach(track => {
-            user.deleteFile('user1', track.title);
+            user.deleteFile(state.user.email, track.title);
         })
     }
 
