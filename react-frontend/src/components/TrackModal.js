@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import ReactDOM from "react-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../styles.css";
@@ -7,8 +7,8 @@ import { AppContext } from "../index.js";
 const user = require('../user.js');
 
 export function TrackModal(props) {
+    //> State and Context
     const [playlist, setPlaylist] = useState(props.user_playlist[0].map((track) => { return { ...track, checked: false } }));
-    const [checkAll, setCheckAll] = useState(false);
     const { state, dispatch } = useContext(AppContext);
 
     //> Delete tracks
@@ -43,18 +43,20 @@ export function TrackModal(props) {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {playlist.map((track, index) => {
-                        return (
-                            <InputGroup key={index} className="mb-3">
-                                <InputGroup.Prepend>
-                                    <InputGroup.Checkbox aria-label="Checkbox for following text input"
-                                        onChange={() => { playlist[index].checked = true }}
-                                    />
-                                </InputGroup.Prepend>
-                                <FormControl aria-label="Text input with checkbox" placeholder={track.title} disabled />
-                            </InputGroup>
-                        );
-                    })}
+                    {
+                        playlist.map((track, index) => {
+                            return (
+                                <InputGroup key={index} className="mb-3">
+                                    <InputGroup.Prepend>
+                                        <InputGroup.Checkbox aria-label="Checkbox for following text input"
+                                            onChange={() => { playlist[index].checked = true }}
+                                        />
+                                    </InputGroup.Prepend>
+                                    <FormControl aria-label="Text input with checkbox" placeholder={track.title} disabled />
+                                </InputGroup>
+                            );
+                        })
+                    }
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="outline-danger" onClick={() => deleteTracks()}>Delete</Button>

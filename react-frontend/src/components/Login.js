@@ -29,8 +29,8 @@ export function Login() {
                             payload: { userName: authResult.user.displayName, userEmail: authResult.user.email, userImage: authResult.user.photoURL }
                         });
                     return false;
-                },
-            },
+                }
+            }
         });
     }
 

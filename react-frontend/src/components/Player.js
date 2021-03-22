@@ -7,6 +7,7 @@ import 'react-h5-audio-player/lib/styles.css';
 import { AppContext } from "../index.js";
 
 export function Player(props) {
+    //> State and Context
     const [playlist, setPlaylist] = useState(props.user_playlist);
     const { state, dispatch } = useContext(AppContext);
 

@@ -7,6 +7,7 @@ import { Form, FormControl, Image, Nav, Navbar } from "react-bootstrap";
 import { AppContext } from "../index.js";
 
 export function Navbs(props) {
+    //> State and Context
     const [searched, setSearched] = useState(null);
     const { state, dispatch } = useContext(AppContext);
 

@@ -1,4 +1,4 @@
-// Export functions
+//* Export functions
 module.exports = {
     getFileURL,
     getFileNames,
@@ -6,10 +6,10 @@ module.exports = {
     deleteFile
 }
 
-//> Get a reference to the storage service, which is used to create references in your storage bucket
+//* Get a reference to the storage service, which is used to create references in your storage bucket
 const storage = firebase.storage();
 
-//> Create a storage reference from our storage service
+//* Create a storage reference from our storage service
 const storageRef = storage.ref();
 
 //* Get single online file download/play URL
@@ -17,13 +17,13 @@ async function getFileURL(user, filePath) {
     return await storageRef.child(user + "/" + filePath).getDownloadURL();
 }
 
-//* Get user uploaded file names
+//> Get user uploaded file names
 async function getFileNames(user) {
     // Get file names within the user folder
     return (await storageRef.child(user).listAll())._delegate.items.map(item => { return item._location.path_.split('/')[1]; });
 }
 
-//* Add file on Firebase storage
+//> Add file on Firebase storage
 async function addFile(user, file) {
     // New file reference
     const fileRef = storageRef.child(user + '/' + file.name);
@@ -36,7 +36,7 @@ async function addFile(user, file) {
     return req;
 }
 
-//* Delete file on Firebase storage
+//> Delete file on Firebase storage
 async function deleteFile(user, fileName) {
     // File to delete
     const fileRef = storageRef.child(user + '/' + fileName);

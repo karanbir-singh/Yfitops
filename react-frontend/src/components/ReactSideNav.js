@@ -9,6 +9,7 @@ import { Spinner } from "react-bootstrap";
 const user = require('../user.js');
 
 export function ReactSidenav(props) {
+    //> States and Context
     const { state, dispatch } = useContext(AppContext);
     const [recentPlayed, setRecentPlayed] = useState([]);
     const [isUploading, setIsUploading] = useState(false);
