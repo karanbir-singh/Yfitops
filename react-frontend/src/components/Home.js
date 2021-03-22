@@ -13,10 +13,11 @@ import { TrackModal } from "./TrackModal";
 const user = require('../user.js');
 
 export function Home() {
+    //> State and Context
     const [playlist, setPlaylist] = useLocalStorage('user-playlist', []);
     const { state, dispatch } = useContext(AppContext);
 
-    // Formats the track title
+    //> Formats the track title
     function formatTitle(title) {
         if (title === undefined) {
             return;
@@ -32,11 +33,14 @@ export function Home() {
         }
     }
 
-    //Get user playlist
+    //> Get user playlist
     async function getUserPlaylist(userName) {
-        if (playlist.length === 0) {
+        // Check if localStorage is empty
+        if (playlist.length === 0) { // If localStorage is empty...
+            // Get user file names
             let titles = await user.getFileNames(userName);
 
+            // Fill localStorage and display tracks
             let newList = [];
             for (const title of titles) {
                 newList = [...newList, { title: title, src: await user.getFileURL(userName, title), trackIndex: newList.length }];
@@ -45,8 +49,9 @@ export function Home() {
         }
     }
 
-    //Create card for each track
+    //> Create card for each track
     function getCardslist(playlist) {
+        // List of tracks
         let cardsList = playlist.map((track, index) => {
             return (
                 <Track key={index} trackIndex={track.trackIndex} title={formatTitle(track.title)} src={track.src} />
@@ -55,7 +60,7 @@ export function Home() {
         return cardsList;
     }
 
-    // Hook
+    //> Hook
     function useLocalStorage(key, initialValue) {
         // State to store our value
         // Pass initial state function to useState so logic is only executed once
@@ -92,6 +97,7 @@ export function Home() {
         return [storedValue, setValue];
     }
 
+    //> ...componentDidMount and componentDidUpdate
     useEffect(() => {
         getUserPlaylist(state.user.email);
     }, [])
@@ -101,9 +107,8 @@ export function Home() {
             <Navbs user_playlist={playlist} />
             <Row>
                 <Col xs={state.isSideNavExpanded ? 2 : 1}><ReactSidenav user_playlist={[playlist, setPlaylist]} /></Col>
-                <Col >
-                    <Row xs={1} sm={2} md={3} lg={4} xl={5}
-                        style={{ paddingBottom: '120px', paddingTop: '59px', paddingRight: '10px', maxWidth: '100%' }}
+                <Col>
+                    <Row xs={1} sm={2} md={3} lg={4} xl={5} className="tracks"
                     >{state.searchedTracks === null ? getCardslist(playlist) : getCardslist(state.searchedTracks)}</Row>
                 </Col>
             </Row>

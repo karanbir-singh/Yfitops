@@ -4,15 +4,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "./styles.css";
 import 'regenerator-runtime/runtime';
 import { Home } from "./components/Home.js";
+import { Login } from "./components/Login";
 
-// App's root element
+//* App root element
 const rootElement = document.getElementById("root");
 
-// App's context
+//* App context
 export const AppContext = createContext(null);
 
-const ui = new firebaseui.auth.AuthUI(firebase.auth());
-
+//* App reducer
 function appReducer(state, action) {
     let newState = { ...state };
     switch (action.type) {
@@ -62,7 +62,9 @@ function appReducer(state, action) {
     return newState;
 }
 
+//* App
 function App() {
+    //> Reducer
     const [state, dispatch] = useReducer(appReducer, {
         user: {
             name: null,
@@ -76,51 +78,16 @@ function App() {
         searchedTracks: null
     });
 
-    function displayAuthOptions() {
-        ui.start('#auth', {
-            signInOptions: [
-                firebase.auth.EmailAuthProvider.PROVIDER_ID,
-                firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-            ],
-            // Other config options..
-            callbacks: {
-                signInSuccessWithAuthResult: function (authResult, redirectUrl) {
-                    // User successfully signed in.
-                    // Return type determines whether we continue the redirect automatically
-                    // or whether we leave that to developer to handle.
-                    dispatch(
-                        {
-                            type: "login",
-                            payload: { userName: authResult.user.displayName, userEmail: authResult.user.email, userImage: authResult.user.photoURL }
-                        });
-                    return false;
-                },
-            },
-        });
-    }
-
-    useEffect(() => {
-        if (window.localStorage.getItem('firebaseui::rememberedAccounts') === null) {
-            displayAuthOptions();
-            return;
-        }
-
-        let name = JSON.parse(window.localStorage.getItem('firebaseui::rememberedAccounts'))[0]?.displayName;
-        let email = JSON.parse(window.localStorage.getItem('firebaseui::rememberedAccounts'))[0]?.email;
-        let img = JSON.parse(window.localStorage.getItem('firebaseui::rememberedAccounts'))[0]?.photoUrl;
-        dispatch({ type: "login", payload: { userName: name, userEmail: email, userImage: img } });
-    }, [state.user.email])
-
     return (
         <>
             <AppContext.Provider value={{ state, dispatch }}>
-                {state.user.email === null && <div id="auth"></div>}
-                {state.user.email !== null && <Home />}
+                {state.user.email ? <Home /> : <Login />}
             </AppContext.Provider>
         </>
     );
 }
 
+//* Rendering
 ReactDOM.render(
     <App />,
     rootElement

@@ -7,27 +7,21 @@ import { Button, Card, Col, Row } from "react-bootstrap";
 import { AppContext } from "../index.js";
 
 export function Track(props) {
-    const [localState, setState] = useState({
-        img: cards.track_green
-    });
-
+    //> Context
     const { state, dispatch } = useContext(AppContext);
 
     return (
         <>
-            <Col>
-                <Card style={{ maxWidth: '22.8rem', marginTop: '10px' }}>
-                    <Card.Img variant="top" src={localState.img} />
+            <Col className="col-track">
+                <Card className="card-track">
+                    <Card.Img variant="top" src={cards.track_green} />
                     <Card.Body>
                         <Card.Title>{props.title}</Card.Title>
                         <Row className="align-items-center">
-                            <Col style={{ textAlign: 'center' }}>
+                            <Col className="card-body-track">
                                 <Button className="card-button" variant="outline-dark"
-                                    onClick={() => {
-                                        dispatch({ type: 'choose track', payload: props.trackIndex })
-                                    }}
-
-                                    style={{ width: '50px', height: '50px', borderRadius: "100%" }}>
+                                    onClick={() => { dispatch({ type: 'choose track', payload: props.trackIndex }) }}
+                                >
                                     {state.index === props.trackIndex ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}
                                 </Button>
                             </Col>
