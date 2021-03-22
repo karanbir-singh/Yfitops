@@ -13,7 +13,7 @@ export function ReactSidenav(props) {
     const [recentPlayed, setRecentPlayed] = useState([]);
     const [isUploading, setIsUploading] = useState(false);
 
-    // Formats the track title
+    //> Formats the track title
     function formatTitle(title) {
         if (title === undefined) {
             return;
@@ -29,30 +29,43 @@ export function ReactSidenav(props) {
         }
     }
 
+    //> Add new tracks
     async function addTracks(userName, files) {
+        // Activate spinner
         setIsUploading(true);
 
+        // At first, "updatedList" contains old tracks
         let updatedList = [...props.user_playlist[0]];
         for (const file of files) {
+            // Check if the file is uploaded...
             if (await user.addFile(userName, file)) {
+                // if so, update "updatedList"
                 updatedList = [...updatedList, { title: file.name, src: await user.getFileURL(userName, file.name), trackIndex: updatedList.length }];
                 props.user_playlist[1](updatedList);
             }
         }
+
+        // Stop spinner
         setIsUploading(false);
     }
 
-    // Check if recentPlayed already contains the track 
+    //> Check if "recentPlayed" already contains the track 
     function checkDuplicates(value) {
         return (recentPlayed.map((track) => {
             if (track.trackIndex === value.trackIndex) return true;
         })).includes(true);
     }
 
+    //> On "state.index" changed...
     useEffect(() => {
+        // Get played track
         let playedTrack = { ...props.user_playlist[0][state.index] };
 
+        // Check if "recentPlayed" exceeded 7 as max size 
+        // or "state.index" is -1
+        // or "recentPlayed" already contains "playedTrack" 
         if (state.index !== -1 && recentPlayed.length < 8 && !checkDuplicates(playedTrack)) {
+            // If not, update "recentPlayed"
             let updatedRecentPlayed = [playedTrack, ...recentPlayed];
             setRecentPlayed(updatedRecentPlayed);
         }
@@ -61,6 +74,8 @@ export function ReactSidenav(props) {
     return (
         <>
             <SideNav
+                className="side-nav"
+
                 onSelect={(selected) => {
                     switch (selected) {
                         case "delete":
@@ -88,17 +103,19 @@ export function ReactSidenav(props) {
                         <NavText>
                             Recent played
                         </NavText>
-                        {recentPlayed.map((track, index) => {
-                            return (
-                                <NavItem key={index} eventKey={"recent played/" + track?.title}
-                                    onClick={() => { dispatch({ type: 'choose track', payload: track.trackIndex }) }}
-                                >
-                                    <NavText>
-                                        {formatTitle(track?.title)}
-                                    </NavText>
-                                </NavItem>
-                            );
-                        })}
+                        {
+                            recentPlayed.map((track, index) => {
+                                return (
+                                    <NavItem key={index} eventKey={"recent played/" + track?.title}
+                                        onClick={() => { dispatch({ type: 'choose track', payload: track.trackIndex }) }}
+                                    >
+                                        <NavText>
+                                            {formatTitle(track?.title)}
+                                        </NavText>
+                                    </NavItem>
+                                );
+                            })
+                        }
                     </NavItem>
 
                     <NavItem eventKey="upload">

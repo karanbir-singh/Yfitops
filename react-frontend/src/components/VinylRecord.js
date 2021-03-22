@@ -7,26 +7,18 @@ import { Image } from "react-bootstrap";
 import { AppContext } from "../index.js";
 
 export function VinylRecord() {
+    //> Vinyl types
     const types = Object.keys(vinyls);
 
-    const [localState, setState] = useState({
-        img: vinyls[types[Math.floor(Math.random() * types.length)]]
-    })
-
+    //> State and Context
+    const [localState, setState] = useState({ img: vinyls[types[Math.floor(Math.random() * types.length)]] });
     const { state, dispatch } = useContext(AppContext);
 
     return (
         <>
-            <img src={localState.img}
+            <img className="rotating-vinyl" src={localState.img}
                 style={{
-                    position: 'fixed',
-                    left: 0,
-                    bottom: 0,
-                    marginBottom: '10px',
-                    animation: 'rotation 5s infinite linear',
-                    zIndex: 2,
-                    marginLeft: '10px',
-                    animationPlayState: state.playback ? 'running' : 'paused'
+                    animationPlayState: state.playback ? 'running' : 'paused',
                 }}
             />
         </>

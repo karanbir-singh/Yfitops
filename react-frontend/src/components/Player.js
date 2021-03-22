@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import ReactDOM from "react-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../styles.css";
@@ -6,12 +6,11 @@ import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
 import { AppContext } from "../index.js";
 
-//> Render audio player
 export function Player(props) {
     const [playlist, setPlaylist] = useState(props.user_playlist);
     const { state, dispatch } = useContext(AppContext);
 
-    // Formats the track title
+    //> Formats the track title
     function formatTitle(title) {
         if (title === undefined) {
             return;

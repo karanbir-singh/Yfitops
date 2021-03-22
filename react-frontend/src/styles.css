@@ -1,11 +1,61 @@
 html, body {
+  background-color: #343a40;
   max-width: 100%;
+  max-height: 100%;
   overflow-x: hidden;
+}
+
+.fade.modal.show {
+  background-image: url(../src/assets/login/body_img6.gif);
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 .material-icons {
   vertical-align: middle;
   margin-bottom: 1px;
+}
+
+.navbs {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2;
+}
+
+.copyright {
+  margin-bottom: 0px;
+}
+
+.user-photo {
+  margin-bottom: 0px;
+  margin-right: 7px;
+  max-width: 25px;
+  max-height: 25px;
+}
+
+.user-name {
+  margin-bottom: 0px;
+}
+
+.col-track {
+  padding-top: 10px;
+}
+
+.card-track {
+  max-width: 22.8rem;
+  height: 100%;
+}
+
+.card-body-track {
+  text-align: center;
+}
+
+.card-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
 }
 
 #skip-previous :hover {
@@ -32,6 +82,28 @@ html, body {
 
 .trash-bin:hover {
   color: red;
+}
+
+.tracks {
+  margin-bottom: 120px;
+  margin-top: 59px;
+  padding-right: 20px;
+  max-width: 100%;
+}
+
+.login-img {
+  width: 100px;
+  height: 100px;
+}
+
+.rotating-vinyl {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  margin-bottom: 10px;
+  animation: rotation 5s infinite linear;
+  z-index: 2;
+  margin-left: 10px;
 }
 
 @keyframes rotation {
