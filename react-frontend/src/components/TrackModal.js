@@ -27,6 +27,7 @@ export function TrackModal(props) {
             user.deleteFile(state.user.email, track.title);
         })
 
+        // 3. Close modal
         dispatch({ type: "modal displayed", payload: false });
     }
 
