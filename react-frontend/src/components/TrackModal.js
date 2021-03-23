@@ -26,6 +26,8 @@ export function TrackModal(props) {
         tracksToDelete.forEach(track => {
             user.deleteFile(state.user.email, track.title);
         })
+
+        dispatch({ type: "modal displayed", payload: false });
     }
 
     return (
@@ -64,7 +66,7 @@ export function TrackModal(props) {
                         setPlaylist(playlist.map((track) => {
                             return { ...track, checked: false }
                         }))
-                        dispatch({ type: "modal displayed", payload: false })
+                        dispatch({ type: "modal displayed", payload: false });
                     }}>Close</Button>
                 </Modal.Footer>
             </Modal>
