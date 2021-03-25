@@ -5,7 +5,6 @@ import "../styles.css";
 import cards from "../assets/cards/*.png";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { AppContext } from "../index.js";
-const fs = require("fs");
 
 export function Track(props) {
     //> Context
