@@ -43,7 +43,7 @@ async function deleteFile(user, fileName) {
 
     // Delete the file
     fileRef.delete().then(() => {
-        // File deleted successfully
+        location.reload();
     }).catch((error) => {
         // Uh-oh, an error occurred!
         console.log(error);

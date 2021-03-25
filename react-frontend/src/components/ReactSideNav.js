@@ -19,15 +19,7 @@ export function ReactSidenav(props) {
         if (title === undefined) {
             return;
         }
-        if (title.includes('.mp3')) {
-            return title.split('.mp3')[0];
-        }
-        if (title.includes('.m4a')) {
-            return title.split('.m4a')[0];
-        }
-        if (title.includes('.flac')) {
-            return title.split('.flac')[0];
-        }
+        return title.split('.').slice(0, -1).join('.');
     }
 
     //> Add new tracks

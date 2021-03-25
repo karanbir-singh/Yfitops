@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "../styles.css";
 import { Navbs } from "./Navbs";
 import { Track } from "./Track";
-import { Col, Row, Spinner } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import { Player } from "./Player";
 import { VinylRecord } from "./VinylRecord";
 import { AppContext } from "../index.js";
@@ -22,15 +22,7 @@ export function Home() {
         if (title === undefined) {
             return;
         }
-        if (title.includes('.mp3')) {
-            return title.split('.mp3')[0];
-        }
-        if (title.includes('.m4a')) {
-            return title.split('.m4a')[0];
-        }
-        if (title.includes('.flac')) {
-            return title.split('.flac')[0];
-        }
+        return title.split('.').slice(0, -1).join('.');
     }
 
     //> Get user playlist
@@ -54,7 +46,7 @@ export function Home() {
         // List of tracks
         let cardsList = playlist.map((track, index) => {
             return (
-                <Track key={index} trackIndex={track.trackIndex} title={formatTitle(track.title)} src={track.src} />
+                <Track key={index} trackIndex={track.trackIndex} title={formatTitle(track.title)} src={track.src} fileName={track.title} />
             )
         });
         return cardsList;
@@ -108,8 +100,9 @@ export function Home() {
             <Row>
                 <Col xs={state.isSideNavExpanded ? 2 : 1}><ReactSidenav user_playlist={[playlist, setPlaylist]} /></Col>
                 <Col>
-                    <Row xs={1} sm={2} md={3} lg={4} xl={5} className="tracks"
-                    >{state.searchedTracks === null ? getCardslist(playlist) : getCardslist(state.searchedTracks)}</Row>
+                    <Row xs={1} sm={2} md={3} lg={4} xl={5} className="tracks">
+                        {state.searchedTracks === null ? getCardslist(playlist) : getCardslist(state.searchedTracks)}
+                    </Row>
                 </Col>
             </Row>
             <VinylRecord />

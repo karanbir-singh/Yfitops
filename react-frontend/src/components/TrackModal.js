@@ -11,6 +11,14 @@ export function TrackModal(props) {
     const [playlist, setPlaylist] = useState(props.user_playlist[0].map((track) => { return { ...track, checked: false } }));
     const { state, dispatch } = useContext(AppContext);
 
+    //> Formats the track title
+    function formatTitle(title) {
+        if (title === undefined) {
+            return;
+        }
+        return title.split('.').slice(0, -1).join('.');
+    }
+
     //> Delete tracks
     async function deleteTracks() {
         // Tracks that have to be maintain
@@ -55,7 +63,7 @@ export function TrackModal(props) {
                                             onChange={() => { playlist[index].checked = true }}
                                         />
                                     </InputGroup.Prepend>
-                                    <FormControl aria-label="Text input with checkbox" placeholder={track.title} disabled />
+                                    <FormControl aria-label="Text input with checkbox" placeholder={formatTitle(track.title)} disabled />
                                 </InputGroup>
                             );
                         })
