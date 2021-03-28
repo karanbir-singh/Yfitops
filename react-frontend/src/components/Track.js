@@ -10,6 +10,23 @@ export function Track(props) {
     //> Context
     const { state, dispatch } = useContext(AppContext);
 
+    function downloadTrack(fileName, url) {
+        const xhr = new XMLHttpRequest();
+        xhr.responseType = 'blob';
+        xhr.onload = (event) => {
+            const a = document.createElement('a');
+            a.id = "a"
+            a.href = window.URL.createObjectURL(xhr.response);
+            a.download = fileName;
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            a.parentNode.removeChild(a);
+        };
+        xhr.open('GET', url);
+        xhr.send();
+    }
+
     return (
         <>
             <Col className="col-track">
@@ -27,6 +44,7 @@ export function Track(props) {
                             </Col>
                         </Row>
                     </Card.Body>
+                    <Card.Footer><i className="material-icons track-download" onClick={() => downloadTrack(props.fileName, props.src)}>download</i></Card.Footer>
                 </Card>
             </Col>
         </>

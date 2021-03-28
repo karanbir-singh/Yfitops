@@ -13,8 +13,8 @@ const storage = firebase.storage();
 const storageRef = storage.ref();
 
 //* Get single online file download/play URL
-async function getFileURL(user, filePath) {
-    return await storageRef.child(user + "/" + filePath).getDownloadURL();
+async function getFileURL(user, fileName) {
+    return await storageRef.child(user + "/" + fileName).getDownloadURL();
 }
 
 //> Get user uploaded file names
