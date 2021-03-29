@@ -11,7 +11,7 @@ const user = require('../user.js');
 export function ReactSidenav(props) {
     //> States and Context
     const { state, dispatch } = useContext(AppContext);
-    const [recentPlayed, setRecentPlayed] = useLocalStorage('recent-played',[]);
+    const [recentPlayed, setRecentPlayed] = useLocalStorage('recent-played', []);
     const [isUploading, setIsUploading] = useState(false);
 
     //> Formats the track title
@@ -30,6 +30,13 @@ export function ReactSidenav(props) {
         // At first, "updatedList" contains old tracks
         let updatedList = [...props.user_playlist[0]];
         for (const file of files) {
+            for(const track of updatedList) {
+                if(track.title === file.name){
+                    setIsUploading(false);
+                    return;
+                } 
+            }
+
             // Check if the file is uploaded...
             if (await user.addFile(userName, file)) {
                 // if so, update "updatedList"
@@ -95,7 +102,7 @@ export function ReactSidenav(props) {
         // or "state.index" is -1
         // or "recentPlayed" already contains "playedTrack" 
         if (state.index !== -1 && !checkDuplicates(playedTrack)) {
-            if(recentPlayed.length === 16){
+            if (recentPlayed.length === 16) {
                 recentPlayed.pop()
             }
 
