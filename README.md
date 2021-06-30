@@ -1,9 +1,9 @@
 # Yfitops
 
 ## Caratteristiche principali
-Il sito Yfitops permette ad un utente di ascoltare musica. Il principale obiettivo di questo sito è quello di concendere all'utente di registrarsi
-e solo dopo aver effettuato il login, gli è permesso di caricare dei file musicali locali sul sito in modo da poter ascoltarli anche senza aver bisogno di
-avere i files in locale. 
+Il sito Yfitops permette ad un utente di ascoltare musica. Il principale obiettivo di questo applicativo è quello di concedere all'utente di registrarsi
+e, solo dopo aver effettuato il login, gli è permesso di caricare dei file musicali locali sul sito in modo da poter ascoltarli anche senza aver bisogno di
+avere i file in locale. 
 
 >**Obiettivo secondario (non raggiunto, per mancanza di tempo)**: Oltre all'uploading di canzoni, è possibile ricercare le canzoni caricate dall'utente (se loggato) e se non trova risultati sarà un secondo servizio musicale ad occuparsi di fornire all'individuo i risultati (Spotify, Amazon Music, ecc.).
 
@@ -30,3 +30,5 @@ L'utente può eseguire le seguenti operazioni:
 * Cloud Storage: Firebase Storage come back-end 
 * Autenticazione: Firebase Authentication
 * *API secondo servizio musicale: (era Spotify)*
+
+[Demo](https://yfitops-cabf7.web.app/)
