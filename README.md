@@ -31,4 +31,4 @@ L'utente può eseguire le seguenti operazioni:
 * Autenticazione: Firebase Authentication
 * *API secondo servizio musicale: (era Spotify)*
 
-[Demo: https://yfitops-cabf7.web.app/](https://yfitops-cabf7.web.app/)
+Demo: [https://yfitops-cabf7.web.app/](https://yfitops-cabf7.web.app/)
